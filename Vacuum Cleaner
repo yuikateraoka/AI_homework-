@@ -1,0 +1,86 @@
+class SimpleProblemSolvingAgentProgram:
+    
+    def __init__(self, initial_state=None):
+        self.state = initial_state #abstract representation of the world's state
+        self.seq = [] #list of require actions from the initial to a particular state
+
+    def __call__(self, percept):
+        self.state = self.update_state(self.state, percept) #update state
+        if not self.seq: #if seq is empty
+            goal = self.formulate_goal(self.state)
+            problem = self.formulate_problem(self.state, goal)
+            self.seq = self.search(problem)
+            if not self.seq: #if sequence is failure
+                return None #return null action
+        return self.seq.pop(0) #return action
+
+    def update_state(self, state, percept):
+        raise NotImplementedError
+
+    def formulate_goal(self, state):
+        raise NotImplementedError
+
+    def formulate_problem(self, state, goal):
+        raise NotImplementedError
+
+    def search(self, problem):
+        raise NotImplementedError
+
+
+
+class vacuumAgent(SimpleProblemSolvingAgentProgram):
+        def update_state(self, state, percept):
+            return percept
+
+        def formulate_goal(self, state):
+            goal = [state8]
+            return goal  
+
+        def formulate_problem(self, state, goal):
+            problem = state
+            return problem   
+    
+        def search(self, problem):
+            if problem == state1:
+                seq = ["Suck", "Right", "Suck"]
+            elif problem == state2:
+                seq = ["Suck", "Left", "Suck"]
+            elif problem == state3:
+                seq = ["Right", "Suck"]
+            elif problem == state4:
+                seq = ["Suck"]
+            elif problem == state5:
+                seq = ["Suck"]
+            elif problem == state6:
+                seq = ["Left", "Suck"]
+            elif problem == state7:
+                seq = ["NoOp"]
+            return seq
+
+
+
+# VC_location, Status_RomA, Status_RoomB
+state1 = [0,[0, "Dirty"],[1,"Dirty"]]
+state2 = [1,[0, "Dirty"],[1,"Dirty"]]
+state3 = [0,[0, "Clean"],[1,"Dirty"]]
+state4 = [1,[0, "Clean"],[1,"Dirty"]]
+state5 = [0,[0, "Dirty"],[1,"Clean"]]
+state6 = [1,[0, "Dirty"],[1,"Clean"]]
+state7 = [0,[0, "Clean"],[1,"Clean"]]
+state8 = [1,[0, "Clean"],[1,"Clean"]]
+
+
+
+a = vacuumAgent(state1)  #initial status 
+
+
+print(a(state6)) #Left
+print(a(state5)) #Suck
+print(a(state7)) #NoOp
+print(a(state1)) # Suck
+print(a(state3))#Right
+print(a(state4)) #Suck
+
+\
+
+
