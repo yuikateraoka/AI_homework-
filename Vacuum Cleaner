@@ -81,6 +81,5 @@ print(a(state1)) # Suck
 print(a(state3))#Right
 print(a(state4)) #Suck
 
-\
 
 
